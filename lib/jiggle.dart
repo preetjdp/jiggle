@@ -1,13 +1,13 @@
 library jiggle;
 
 export 'builders.dart';
+export 'controller.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:jiggle/controller.dart';
 import 'package:vector_math/vector_math.dart';
-import 'package:basics/basics.dart';
 
+enum JiggleState { JIGGLING, STATIC }
 
 /// Jiggle your Widgets. 👯‍♀️
 ///
@@ -103,47 +103,6 @@ class _JiggleState extends State<Jiggle> with SingleTickerProviderStateMixin {
               child: child,
             );
           }),
-    );
-  }
-}
-
-enum JiggleState { JIGGLING, STATIC }
-
-typedef JiggleControllerBuilder = Widget Function(
-    BuildContext context, bool isJiggling);
-
-class JiggleController {
-  BehaviorSubject<JiggleState> _jiggleSubject =
-      BehaviorSubject.seeded(JiggleState.STATIC);
-
-  Stream<JiggleState> get stream => _jiggleSubject.stream.asBroadcastStream();
-
-  JiggleController() {
-    stream.listen((event) {
-      print("Constructor " + event.toString());
-    });
-  }
-
-  void toggle() {
-    HapticFeedback.mediumImpact();
-    if (_jiggleSubject.value == JiggleState.STATIC) {
-      _jiggleSubject.value = JiggleState.JIGGLING;
-    } else {
-      _jiggleSubject.value = JiggleState.STATIC;
-    }
-  }
-
-  void dispose() {
-    _jiggleSubject.close();
-  }
-
-  Widget isJigglingBuilder({JiggleControllerBuilder builder}) {
-    return StreamBuilder<bool>(
-      stream: _jiggleSubject.map((event) => event == JiggleState.JIGGLING),
-      initialData: false,
-      builder: (BuildContext context, AsyncSnapshot<bool> data) {
-        return builder(context, data.data);
-      },
     );
   }
 }
