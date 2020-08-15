@@ -1,14 +1,13 @@
 library jiggle;
 
+export 'builders.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:basics/basics.dart';
 
-/// A builder that builds a widget given a child.
-/// The child should typically be part of the returned widget tree.
-typedef JiggleBuilder = Widget Function(BuildContext context, Widget child);
 
 /// Jiggle your Widgets. 👯‍♀️
 ///

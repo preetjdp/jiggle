@@ -64,7 +64,13 @@ class MyHomePage extends StatelessWidget {
                     color: Colors.blueAccent,
                     borderRadius: BorderRadius.circular(20)),
               ),
-            )
+            ),
+            JiggleBuilder(
+              controller: controller,
+              builder: (context, state) {
+                return Text(state.toString());
+              },
+            ),
           ],
         ),
       ),
