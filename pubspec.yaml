@@ -1,8 +1,7 @@
 name: jiggle
 description: A Flutter Package that allows you to Jiggle your Widgets.
-version: 0.0.3
-author: Preet Parekh
-homepage: https://github.com/preetjdp/magnifier
+version: 1.0.0
+homepage: https://github.com/preetjdp/Jiggle
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -12,8 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   basics: ^0.4.0+1
-  rxdart: ^0.24.1
-  equatable: ^1.2.3
+  rxdart: ^0.25.0
+  equatable: ^1.2.5
+  vector_math: ^2.0.8
 
 dev_dependencies:
   flutter_test:
