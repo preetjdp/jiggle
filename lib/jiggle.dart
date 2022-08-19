@@ -14,12 +14,13 @@ enum JiggleState { JIGGLING, STATIC }
 /// Jiggle is useful if you wish to indicate a state of uncertainity or
 /// grab the attendtion of somebody.
 class Jiggle extends StatefulWidget {
-  Jiggle(
-      {@required this.child,
-      @required this.jiggleController,
-      this.extent = 1,
-      this.duration = const Duration(milliseconds: 80),
-      this.useGestures = false});
+  Jiggle({
+    required this.child,
+    required this.jiggleController,
+    this.extent = 1,
+    this.duration = const Duration(milliseconds: 80),
+    this.useGestures = false,
+  });
 
   /// This is the extent in degress to which the Widget rotates.
   ///
@@ -50,20 +51,20 @@ class Jiggle extends StatefulWidget {
 }
 
 class _JiggleState extends State<Jiggle> with SingleTickerProviderStateMixin {
-  AnimationController _jiggleAnimationController;
-  Animation<double> jiggleAnimation;
+  late AnimationController _jiggleAnimationController;
+  late Animation<double> jiggleAnimation;
 
   @override
   void initState() {
     _jiggleAnimationController = AnimationController(
-        vsync: this,
-        duration: widget.duration,
-        value: 0,
-        lowerBound: -1,
-        upperBound: 1);
+      vsync: this,
+      duration: widget.duration,
+      value: 0,
+      lowerBound: -1,
+      upperBound: 1,
+    );
 
-    jiggleAnimation = Tween<double>(begin: 0, end: widget.extent)
-        .animate(_jiggleAnimationController);
+    jiggleAnimation = Tween<double>(begin: 0, end: widget.extent).animate(_jiggleAnimationController);
 
     _jiggleAnimationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -92,17 +93,31 @@ class _JiggleState extends State<Jiggle> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     listenForJiggles();
-    return GestureDetector(
-      onLongPress: _onLongPress,
-      child: AnimatedBuilder(
+    if (widget.useGestures) {
+      return GestureDetector(
+        onLongPress: _onLongPress,
+        child: AnimatedBuilder(
           animation: jiggleAnimation,
           child: widget.child,
-          builder: (BuildContext context, Widget child) {
+          builder: (BuildContext context, Widget? child) {
             return Transform.rotate(
               angle: radians(jiggleAnimation.value),
               child: child,
             );
-          }),
-    );
+          },
+        ),
+      );
+    } else {
+      return AnimatedBuilder(
+        animation: jiggleAnimation,
+        child: widget.child,
+        builder: (BuildContext context, Widget? child) {
+          return Transform.rotate(
+            angle: radians(jiggleAnimation.value),
+            child: child,
+          );
+        },
+      );
+    }
   }
 }
