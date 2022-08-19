@@ -7,8 +7,7 @@ import 'package:rxdart/rxdart.dart';
 import 'jiggle.dart';
 
 class JiggleController extends Equatable {
-  final BehaviorSubject<JiggleState> _jiggleSubject =
-      BehaviorSubject.seeded(JiggleState.STATIC);
+  final BehaviorSubject<JiggleState> _jiggleSubject = BehaviorSubject.seeded(JiggleState.STATIC);
 
   Stream<JiggleState> get stream => _jiggleSubject.stream.asBroadcastStream();
 
